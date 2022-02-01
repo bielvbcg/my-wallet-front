@@ -39,7 +39,7 @@ export default function SignUp() {
 
       <h1>MyWallet</h1>
 
-      <form onSubmit={SignUp}>
+      <form onSubmit={signUp}>
         <input type="text" placeholder="Name" value={name} onChange={e => setName(e.target.value)} disabled={botaoClickado} />
         <input type="email" placeholder="E-mail" value={email} onChange={e => setEmail(e.target.value)} disabled={botaoClickado} />
         <input type="password" placeholder="Senha" value={password} onChange={e => setpassword(e.target.value)} disabled={botaoClickado} />

@@ -21,7 +21,7 @@ export default function Login() {
     setBotaoClickado(true)
 
     cadastro.then((r) => {
-      navigate("/")
+      navigate("/wallet")
       setBotaoClickado(false)
     })
 
