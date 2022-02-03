@@ -2,36 +2,68 @@ import { useContext, useState } from 'react';
 import { Link, useNavigate } from "react-router-dom"
 import styled from 'styled-components';
 import axios from 'axios';
+import joi from "joi"
 
 export default function SignUp() {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
-  const [password, setpassword] = useState("")
+  const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
   const [botaoClickado, setBotaoClickado] = useState(false)
   let navigate = useNavigate()
 
-  function signUp(event) {
+  async function signUp(event) {
     event.preventDefault()
-
-    const cadastro = axios.post("http://localhost:5000/sign-up",
-      {
-        name,
-        email,
-        password,
-      })
 
     setBotaoClickado(true)
 
+    const signUpSchema = joi.object({
+      name: joi.string().required(),
+      email: joi.string().email({ tlds: { allow: false } }).required(),
+      password: joi.string().required()
+    })
+
+    const user = {
+      name,
+      email,
+      password,
+    }
+
+    const validation = signUpSchema.validate(user, { abortEarly: true })
+    if (validation.error) {
+      const message = validation.error.details.message
+      alert(message)
+      setBotaoClickado(false)
+      return
+    }
+
+    if (password !== confirmPassword) {
+      alert("As senhas não batem")
+      setBotaoClickado(false)
+      return
+    }
+
+    const cadastro = axios.post("http://localhost:5000/sign-up", user)
+
     cadastro.then((r) => {
+      console.log("entrou no then")
       navigate("/")
       setBotaoClickado(false)
+      cleanData()
     })
 
     cadastro.catch(error => {
+      console.log("entrou no catch")
       alert(error.response.data.message)
       setBotaoClickado(false)
     })
+  }
+
+  function cleanData() {
+    setName("")
+    setEmail("")
+    setPassword("")
+    setConfirmPassword("")
   }
 
   return (
@@ -42,7 +74,7 @@ export default function SignUp() {
       <form onSubmit={signUp}>
         <input type="text" placeholder="Name" value={name} onChange={e => setName(e.target.value)} disabled={botaoClickado} />
         <input type="email" placeholder="E-mail" value={email} onChange={e => setEmail(e.target.value)} disabled={botaoClickado} />
-        <input type="password" placeholder="Senha" value={password} onChange={e => setpassword(e.target.value)} disabled={botaoClickado} />
+        <input type="password" placeholder="Senha" value={password} onChange={e => setPassword(e.target.value)} disabled={botaoClickado} />
         <input type="password" placeholder="Confirme a senha" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} disabled={botaoClickado} />
 
         <Button type='submit' disabled={botaoClickado}>Cadastrar</Button>
