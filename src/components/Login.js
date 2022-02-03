@@ -2,6 +2,7 @@ import { useContext, useState } from 'react';
 import { Link, useNavigate } from "react-router-dom"
 import styled from 'styled-components';
 import axios from 'axios';
+import joi from "joi"
 import AppContext from '../contexts/AppContext';
 
 export default function Login() {
@@ -14,13 +15,28 @@ export default function Login() {
   function login(event) {
     event.preventDefault()
 
+    setBotaoClickado(true)
+
+    const signUpSchema = joi.object({
+      email: joi.string().email({ tlds: { allow: false } }).required(),
+      password: joi.string().required()
+    })
+
+    const user = { email, password }
+
+    const validation = signUpSchema.validate(user, { abortEarly: true })
+    if (validation.error) {
+      const message = validation.error.details.message
+      alert(message)
+      setBotaoClickado(false)
+      return
+    }
+
     const cadastro = axios.post("http://localhost:5000/login",
       {
         email,
         password,
       })
-
-    setBotaoClickado(true)
 
     cadastro.then((r) => {
       setToken(r.data.token)

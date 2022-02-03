@@ -22,12 +22,12 @@ export default function Wallet() {
 
       <ContainerButtons>
 
-        <Button>
+        <Button onClick={() => navigate("/wallet/new-in")}>
           <ion-icon name="add-circle-outline"></ion-icon>
           <span>Nova <br />entrada</span>
         </Button>
 
-        <Button>
+        <Button onClick={() => navigate("/wallet/new-out")}>
           <ion-icon name="remove-circle-outline"></ion-icon>
           <span>Nova <br />saída</span>
         </Button>
