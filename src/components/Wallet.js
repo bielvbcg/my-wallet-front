@@ -57,6 +57,7 @@ const Title = styled.div`
 
   font-size: 26px;
   line-height: 31px;
+  font-weight: bold;
   color: #FFFFFF;
 `
 
@@ -106,6 +107,7 @@ const Button = styled.button`
 
   font-size: 17px;
   line-height: 20px;
+  font-weight: bold;
   color: #FFFFFF;
   text-align: left;
 

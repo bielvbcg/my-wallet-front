@@ -64,6 +64,7 @@ const Main = styled.div`
   h1 {
     font-size: 26px;
     line-height: 31px;
+    font-weight: bold;
     text-align: left;
 
     color: #FFFFFF;
