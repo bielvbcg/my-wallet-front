@@ -2,11 +2,13 @@ import { useContext, useState } from 'react';
 import { Link, useNavigate } from "react-router-dom"
 import styled from 'styled-components';
 import axios from 'axios';
+import AppContext from '../contexts/AppContext';
 
 export default function Login() {
   const [email, setEmail] = useState("")
   const [password, setpassword] = useState("")
   const [botaoClickado, setBotaoClickado] = useState(false)
+  const { setToken, setName } = useContext(AppContext)
   let navigate = useNavigate()
 
   function login(event) {
@@ -21,8 +23,10 @@ export default function Login() {
     setBotaoClickado(true)
 
     cadastro.then((r) => {
-      navigate("/wallet")
+      setToken(r.data.token)
+      setName(r.data.name)
       setBotaoClickado(false)
+      navigate("/wallet")
     })
 
     cadastro.catch(error => {

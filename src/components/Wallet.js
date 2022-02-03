@@ -2,15 +2,17 @@ import { useContext, useState } from 'react';
 import { Link, useNavigate } from "react-router-dom"
 import styled from 'styled-components';
 import axios from 'axios';
+import AppContext from '../contexts/AppContext';
 
 export default function Wallet() {
+  const { name, token } = useContext(AppContext)
   let navigate = useNavigate();
 
   return (
     <Main>
 
       <Title>
-        <span>Olá, Fulano</span>
+        <span>Olá, {name ? name : "Fulano"}</span>
         <ion-icon name="log-out-outline" onClick={() => navigate("/")}></ion-icon>
       </Title>
 

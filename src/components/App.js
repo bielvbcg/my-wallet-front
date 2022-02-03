@@ -7,8 +7,10 @@ import SignUp from "./SignUp.js"
 import Wallet from "./Wallet.js"
 
 export default function App() {
+  const [token, setToken] = useState(null)
+  const [name, setName] = useState(null)
 
-  const context = {}
+  const context = { token, setToken, name, setName }
 
   return (
     <AppContext.Provider value={context}>
