@@ -46,7 +46,7 @@ export default function Login() {
     })
 
     cadastro.catch(error => {
-      alert(error.response.data.message)
+      alert(error.response.data)
       setBotaoClickado(false)
     })
   }
@@ -101,7 +101,6 @@ const Main = styled.div`
     height: 45px;
 
     border: 1px solid #D5D5D5;
-    padding-left: 11px;
     border-radius: 5px;
 
     font-size: 17px;

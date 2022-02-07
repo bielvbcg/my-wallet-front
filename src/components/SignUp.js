@@ -46,7 +46,6 @@ export default function SignUp() {
     const cadastro = axios.post("http://localhost:5000/sign-up", user)
 
     cadastro.then((r) => {
-      console.log("entrou no then")
       navigate("/")
       setBotaoClickado(false)
       cleanData()

@@ -28,11 +28,19 @@ export default function NewOut() {
       return
     }
 
-    const entry = { value, description, token }
-    console.log(entry)
+    const entry = { value, description, type: "out" }
+    const promise = axios.post('http://localhost:5000/entries', entry, { headers: { Authorization: `Bearer ${token}` } })
 
-    setBotaoClickado(false)
-    navigate("/wallet")
+    promise.then(() => {
+      setBotaoClickado(false)
+      navigate("/wallet")
+    })
+
+    promise.catch(error => {
+      alert(error.message)
+      setBotaoClickado(false)
+      navigate("/wallet")
+    })
   }
 
   return (

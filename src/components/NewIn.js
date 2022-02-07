@@ -12,7 +12,7 @@ export default function NewIn() {
   const { token } = useContext(AppContext)
   let navigate = useNavigate()
 
-  function newEntry(event) {
+  async function newEntry(event) {
     event.preventDefault()
     setBotaoClickado(true)
 
@@ -21,18 +21,27 @@ export default function NewIn() {
       description: joi.string().required(),
     })
 
-    const validation = entrySchema.validate({ value, description })
+    const validation = entrySchema.validate({ value, description, })
     if (validation.error) {
       alert(validation.error.details.message)
       setBotaoClickado(false)
       return
     }
 
-    const entry = { value, description, token }
-    console.log(entry)
+    const entry = { value, description, type: "in" }
+    const promise = axios.post('http://localhost:5000/entries', entry, { headers: { Authorization: `Bearer ${token}` } })
 
-    setBotaoClickado(false)
-    navigate("/wallet")
+    promise.then(() => {
+      setBotaoClickado(false)
+      navigate("/wallet")
+    })
+
+    promise.catch(error => {
+      alert(error.message)
+      setBotaoClickado(false)
+      navigate("/wallet")
+    })
+
   }
 
   return (
